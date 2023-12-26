@@ -1,0 +1,52 @@
+#fcg-form {
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.fcg-form-item {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fcg-form-item input,
+.fcg-form-item select {
+  box-sizing: border-box;
+  border: none;
+  padding: 4px;
+}
+
+.fcg-button {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  border: none;
+}
+
+.fcg-form-item #pilih_media {
+  background-color: darkred;
+}
+
+#fcg-submit {
+  background-color: darkgreen;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+#fcg-submit.active {
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  opacity: 1;
+}
+
+.fcg-help-text.hide {
+  display: none;
+}
