@@ -43,7 +43,17 @@ function mm_display_options()
                     }
                     ?>
                 </select><br><br>
+            </div>
 
+            <!-- date range -->
+
+            <div class="fcg-form-item">
+                <label for="date_from">Tanggal Mulai:</label>
+                <input type="date" id="date_from" name="date_from"><br><br>
+            </div>
+            <div class="fcg-form-item">
+                <label for="date_to">Tanggal Selesai:</label>
+                <input type="date" id="date_to" name="date_to"><br><br>
             </div>
 
             <div class="fcg-form-item">
@@ -66,36 +76,47 @@ function mm_display_options()
 <?php
     mm_handle_post_request();
 }
+
+
 function mm_handle_post_request()
 {
     if (isset($_POST['mm_generate'])) {
         $jumlah_post = intval($_POST['jumlah_post']);
         $kategori = sanitize_text_field($_POST['kategori']);
         $gallery_ids = isset($_POST['image_id']) ? sanitize_text_field($_POST['image_id']) : '';
-        // Logika untuk membuat post
-        mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids);
+        $date_from = isset($_POST['date_from']) ? sanitize_text_field($_POST['date_from']) : '';
+        $date_to = isset($_POST['date_to']) ? sanitize_text_field($_POST['date_to']) : '';
+
+        mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids, $date_from, $date_to);
     }
 }
 
 
 
 
-function mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids)
+function mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids, $date_from, $date_to)
 {
     $image_ids = explode(',', $gallery_ids);
     for ($i = 0; $i < $jumlah_post; $i++) {
         $judul = fcg_title();
         $content = fcg_content();
         $tags = mm_fcgtag();
+
+        // Logika untuk menetapkan tanggal publikasi secara acak
+        $post_date = mm_random_date($date_from, $date_to);
+
         $new_post = array(
             'post_title'    => $judul,
             'post_content'  => $content,
             'tags_input'    => $tags,
             'post_status'   => 'publish',
-            'post_author' => get_current_user_id(),
-            'post_type' => 'post',
-            'post_category' => array($kategori)
+            'post_author'   => get_current_user_id(),
+            'post_type'     => 'post',
+            'post_category' => array($kategori),
+            'post_date'     => $post_date,
+            'post_date_gmt' => gmdate('Y-m-d H:i:s', strtotime($post_date))
         );
+
         $post_id = wp_insert_post($new_post);
         if (!empty($image_ids)) {
             set_post_thumbnail($post_id, $image_ids[array_rand($image_ids)]);
@@ -103,6 +124,13 @@ function mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids)
     }
 }
 
+function mm_random_date($start_date, $end_date)
+{
+    $start_timestamp = strtotime($start_date);
+    $end_timestamp = strtotime($end_date);
+    $random_timestamp = mt_rand($start_timestamp, $end_timestamp);
+    return date('Y-m-d H:i:s', $random_timestamp);
+}
 
 
 function mm_enqueue_media_uploader()
