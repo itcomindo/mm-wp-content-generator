@@ -1,0 +1,1 @@
+Plugin MM WP Fake Content Generator ini adalah plugin Wordpress untuk membuat konten fake untuk tujuan pengembangan dan debuging. Plugin ini akan membuat konten fake untuk post, page, attachment, dan user. Plugin ini juga bisa membuat konten fake untuk custom post type dan custom taxonomies.
