@@ -2,7 +2,7 @@
 /*
 Plugin Name: MM WP Fake Content Generator
 Description: Plugin untuk menghasilkan konten palsu.
-Version: 1.0
+Version: Beta.1.0.0
 Author: Anda
 */
 defined('ABSPATH') || exit;
