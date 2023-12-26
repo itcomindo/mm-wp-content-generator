@@ -97,8 +97,9 @@ function mm_handle_post_request()
 function mm_create_fake_posts($jumlah_post, $kategori, $gallery_ids, $date_from, $date_to)
 {
     $image_ids = explode(',', $gallery_ids);
+    $kategori_nama = get_cat_name($kategori);
     for ($i = 0; $i < $jumlah_post; $i++) {
-        $judul = fcg_title();
+        $judul = $kategori_nama . ' ' . fcg_title();
         $content = fcg_content();
         $tags = mm_fcgtag();
 
